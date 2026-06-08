@@ -1,0 +1,14 @@
+# Dependencies
+node_modules/
+
+# Environment & secrets
+.env
+.env.*
+
+# Editor & OS
+.DS_Store
+Thumbs.db
+
+# Local tooling logs
+.codex-server.*
+.codex-static-server.cjs
