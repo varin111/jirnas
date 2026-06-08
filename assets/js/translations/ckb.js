@@ -192,6 +192,10 @@ window.JIRNAS_TRANSLATIONS.ckb = {
     "Tell us about your project": "دەربارەی پڕۆژەکەت پێمان بڵێ",
     "Send Message": "ناردنی پەیام",
     "Opening your email app with the project details.": "ئەپڵیکەیشنی ئیمەیڵەکەت بە وردەکارییەکانی پڕۆژەکە دەکرێتەوە.",
+    "Sending your message...": "پەیامەکەت دەنێردرێت...",
+    "Your message has been sent. We'll get back to you soon!": "پەیامەکەت نێردرا. بەم زووانە وەڵامت دەدەینەوە!",
+    "Something went wrong. Please try again or email us directly.": "هەڵەیەک ڕوویدا. تکایە دووبارە هەوڵ بدەرەوە یان ڕاستەوخۆ ئیمەیڵمان بنێرە.",
+    "Redirecting to send your message...": "ڕەوانەت دەکرێت بۆ ناردنی پەیامەکەت...",
     "Project request from": "داواکاری پڕۆژە لەلایەن",
     "Jirnas website": "وێبسایتی ژیرناس",
     "Training Courses": "خولە فێرکارییەکان"

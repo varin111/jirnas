@@ -195,23 +195,105 @@ if ("IntersectionObserver" in window) {
   document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
 }
 
+const CONTACT_EMAIL = "jirnastech@gmail.com";
+const FORMSUBMIT_TOKEN = "91c6f919a44ec0644570da89a43fdfc9";
+
+const buildSubmissionFields = (data, language) => ({
+  name: data.get("name") || "",
+  email: data.get("email") || "",
+  phone: data.get("phone") || "",
+  service: data.get("service") || "",
+  message: data.get("message") || "",
+  _subject: `${translate("Project request from", language)} ${
+    data.get("name") || translate("Jirnas website", language)
+  }`,
+  _replyto: data.get("email") || "",
+  _template: "table",
+  _captcha: "false",
+});
+
+const submitViaFormPost = (fields) => {
+  const postForm = document.createElement("form");
+  postForm.action = `https://formsubmit.co/${FORMSUBMIT_TOKEN}`;
+  postForm.method = "POST";
+  postForm.acceptCharset = "UTF-8";
+
+  if (window.location.protocol !== "file:") {
+    const returnUrl = new URL(window.location.href);
+    returnUrl.searchParams.set("sent", "1");
+    const nextField = document.createElement("input");
+    nextField.type = "hidden";
+    nextField.name = "_next";
+    nextField.value = returnUrl.toString();
+    postForm.appendChild(nextField);
+  }
+
+  Object.entries(fields).forEach(([name, value]) => {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    postForm.appendChild(input);
+  });
+
+  document.body.appendChild(postForm);
+  postForm.submit();
+};
+
 if (form && formNote) {
-  form.addEventListener("submit", (event) => {
+  const url = new URL(window.location.href);
+  if (url.searchParams.get("sent") === "1") {
+    formNote.textContent = translate("Your message has been sent. We'll get back to you soon!", getCurrentLanguage());
+    url.searchParams.delete("sent");
+    window.history.replaceState({}, "", url.toString());
+  }
+
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const data = new FormData(form);
     const language = getCurrentLanguage();
-    const subject = encodeURIComponent(
-      `${translate("Project request from", language)} ${data.get("name") || translate("Jirnas website", language)}`
-    );
-    const body = encodeURIComponent(
-      `${translate("Full Name", language)}: ${data.get("name") || ""}\n${translate("Email", language)}: ${
-        data.get("email") || ""
-      }\n${translate("Phone Number", language)}: ${data.get("phone") || ""}\n${translate(
-        "Service Type",
-        language
-      )}: ${data.get("service") || ""}\n\n${translate("Message", language)}:\n${data.get("message") || ""}`
-    );
-    formNote.textContent = translate("Opening your email app with the project details.", language);
-    window.location.href = `mailto:jirnastech@gmail.com?subject=${subject}&body=${body}`;
+    const submitButton = form.querySelector('button[type="submit"]');
+    const fields = buildSubmissionFields(data, language);
+
+    if (submitButton) submitButton.disabled = true;
+    formNote.textContent = translate("Sending your message...", language);
+
+    if (window.location.protocol === "file:") {
+      formNote.textContent = translate("Redirecting to send your message...", language);
+      submitViaFormPost(fields);
+      return;
+    }
+
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_TOKEN}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(fields),
+      });
+
+      const result = await response.json();
+      const isSuccess = result.success === true || result.success === "true";
+
+      if (isSuccess) {
+        formNote.textContent = translate("Your message has been sent. We'll get back to you soon!", language);
+        form.reset();
+        if (submitButton) submitButton.disabled = false;
+        return;
+      }
+
+      if (result.message) {
+        formNote.textContent = result.message;
+        if (submitButton) submitButton.disabled = false;
+        return;
+      }
+
+      throw new Error("Form submission failed");
+    } catch {
+      formNote.textContent = translate("Redirecting to send your message...", language);
+      submitViaFormPost(fields);
+    }
   });
 }

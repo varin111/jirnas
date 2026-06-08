@@ -92,10 +92,17 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 12px;
+  min-width: 0;
   font-size: 1.2rem;
   font-weight: 800;
   color: var(--navy);
   white-space: nowrap;
+}
+
+.brand > span:last-child {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .brand-mark {
@@ -106,11 +113,13 @@ a {
   align-items: center;
   justify-content: center;
   background: transparent;
+  overflow: hidden;
 }
 
 .brand-mark img {
-  width: 100%;
-  height: 100%;
+  width: 72px;
+  height: 72px;
+  max-width: none;
   object-fit: contain;
   display: block;
 }
@@ -181,6 +190,7 @@ a {
 .menu-toggle {
   width: 44px;
   height: 44px;
+  flex: 0 0 44px;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--white);
@@ -273,7 +283,7 @@ a {
 .hero-home {
   display: grid;
   align-items: center;
-  padding: 56px 0 64px;
+  padding: 42px 0 52px;
 }
 
 .hero-grid {
@@ -281,7 +291,7 @@ a {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(420px, 1.08fr);
   align-items: center;
-  gap: 58px;
+  gap: 48px;
   z-index: 1;
 }
 
@@ -298,6 +308,16 @@ a {
   font-size: clamp(2.75rem, 5.2vw, 4.75rem);
   line-height: 1.06;
   letter-spacing: 0;
+}
+
+.hero-copy h1 {
+  font-size: clamp(2.45rem, 4.35vw, 4.05rem);
+  line-height: 1.05;
+}
+
+.page-hero h1 {
+  font-size: clamp(2.65rem, 4.8vw, 4.35rem);
+  line-height: 1.07;
 }
 
 .hero-copy p,
@@ -320,11 +340,14 @@ html[dir="rtl"] .page-hero p {
   display: flex;
   flex-wrap: wrap;
   gap: 14px;
-  margin-top: 34px;
+  margin-top: 28px;
 }
 
 .hero-visual {
   position: relative;
+  width: 100%;
+  max-width: 560px;
+  justify-self: end;
 }
 
 .hero-visual img {
@@ -495,7 +518,7 @@ html[dir="rtl"] .page-hero p {
 .contact-card {
   border: 1px solid rgba(219, 229, 242, 0.88);
   border-radius: var(--radius);
-  background: var(--white);
+  background: linear-gradient(180deg, var(--white), #fbfdff);
   box-shadow: var(--shadow);
 }
 
@@ -508,10 +531,15 @@ html[dir="rtl"] .page-hero p {
 }
 
 .mini-card i,
+.mini-card > svg,
 .service-card > i,
+.service-card > svg,
 .design-card i,
+.design-card > svg,
 .value-card > i,
+.value-card > svg,
 .contact-card i,
+.contact-card > svg,
 .contact-card .card-icon {
   width: 46px;
   height: 46px;
@@ -519,6 +547,7 @@ html[dir="rtl"] .page-hero p {
   border-radius: var(--radius);
   color: var(--blue);
   background: linear-gradient(135deg, rgba(18, 104, 243, 0.12), rgba(57, 183, 255, 0.16));
+  box-sizing: border-box;
 }
 
 .contact-card .card-icon {
@@ -565,6 +594,7 @@ html[dir="rtl"] .page-hero p {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
@@ -616,6 +646,53 @@ html[dir="rtl"] .page-hero p {
 .course-icon svg {
   width: 26px;
   height: 26px;
+}
+
+.course-icon.app-logo {
+  width: 62px;
+  height: 62px;
+  border: 2px solid currentColor;
+  border-radius: 14px;
+  color: #8fd8ff;
+  background: #001e36;
+  box-shadow: 0 16px 34px rgba(18, 104, 243, 0.22);
+}
+
+.app-logo span {
+  font-size: 1.28rem;
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.app-logo-office {
+  color: #ff9b73;
+  background: linear-gradient(135deg, #2f1008, #b23a18);
+}
+
+.app-logo-design {
+  color: #f5a3ff;
+  background: linear-gradient(135deg, #2a0c36, #7b2cff);
+}
+
+.app-logo-photoshop {
+  color: #8fd8ff;
+  background: #001e36;
+}
+
+.app-logo-illustrator {
+  color: #ffbd72;
+  background: #300000;
+}
+
+.app-logo-premiere {
+  color: #e5b4ff;
+  background: #20003b;
+}
+
+.app-logo-indesign {
+  color: #ff9bd5;
+  background: #320014;
 }
 
 .course-badge {
@@ -728,10 +805,11 @@ html[dir="rtl"] .btn {
 }
 
 .solution-preview a {
+  position: relative;
   min-height: 96px;
   display: flex;
   align-items: center;
-  padding: 22px 24px;
+  padding: 22px 56px 22px 24px;
   border-radius: var(--radius);
   border: 1px solid var(--line);
   background:
@@ -744,9 +822,30 @@ html[dir="rtl"] .btn {
   transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
+.solution-preview a::after {
+  content: "→";
+  position: absolute;
+  right: 22px;
+  top: 50%;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  color: var(--blue);
+  background: rgba(18, 104, 243, 0.1);
+  transform: translateY(-50%);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
 .solution-preview a:hover {
   transform: translateY(-4px);
   border-color: rgba(18, 104, 243, 0.32);
+}
+
+.solution-preview a:hover::after {
+  background: rgba(18, 104, 243, 0.16);
+  transform: translate(3px, -50%);
 }
 
 .center-action {
@@ -779,6 +878,13 @@ html[dir="rtl"] .btn {
   width: 24px;
   height: 24px;
   color: var(--cyan);
+}
+
+.check-item > svg {
+  width: 24px;
+  height: 24px;
+  color: var(--cyan);
+  flex: 0 0 24px;
 }
 
 .cta-section {
@@ -865,7 +971,7 @@ html[dir="rtl"] .btn {
 .page-hero {
   position: relative;
   overflow: hidden;
-  padding: 128px 0 88px;
+  padding: 112px 0 76px;
   background:
     radial-gradient(circle at 82% 18%, rgba(57, 183, 255, 0.22), transparent 25%),
     linear-gradient(135deg, var(--navy), var(--navy-2));
@@ -911,6 +1017,7 @@ html[dir="rtl"] .btn {
   display: grid;
   gap: 14px;
   align-content: start;
+  overflow: hidden;
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 }
 
@@ -1049,19 +1156,23 @@ html[dir="rtl"] .brand {
 }
 
 html[dir="rtl"] .hero-copy h1 {
-  font-size: clamp(2.35rem, 4.2vw, 3.65rem);
+  font-size: clamp(2.25rem, 3.8vw, 3.25rem);
   line-height: 1.18;
 }
 
 html[dir="rtl"] .page-hero h1 {
-  font-size: clamp(3rem, 5.8vw, 5.5rem);
-  line-height: 1.14;
+  font-size: clamp(2.85rem, 5.2vw, 4.5rem);
+  line-height: 1.16;
 }
 
 html[dir="rtl"] .hero-copy p,
 html[dir="rtl"] .page-hero p {
   font-size: 1.45rem;
   line-height: 1.8;
+}
+
+html[dir="rtl"] .hero-visual {
+  justify-self: start;
 }
 
 html[dir="rtl"] .section-heading h2,
@@ -1205,9 +1316,20 @@ html[dir="rtl"] .design-grid {
 }
 
 html[dir="rtl"] .solution-preview a {
+  padding: 22px 24px 22px 56px;
   font-size: 1.28rem;
   line-height: 1.55;
   min-height: 104px;
+}
+
+html[dir="rtl"] .solution-preview a::after {
+  content: "←";
+  right: auto;
+  left: 22px;
+}
+
+html[dir="rtl"] .solution-preview a:hover::after {
+  transform: translate(-3px, -50%);
 }
 
 #courses .section-heading h2 {
@@ -1233,7 +1355,7 @@ html[dir="rtl"] .courses-hero .eyebrow {
 }
 
 html[dir="rtl"] .page-hero .eyebrow {
-  font-size: 1.5rem;
+  font-size: 1.42rem;
   letter-spacing: 0.02em;
 }
 
@@ -1334,7 +1456,16 @@ html[dir="rtl"] .site-footer .footer-grid span {
   }
 
   .hero-home {
-    padding-top: 48px;
+    padding: 40px 0 48px;
+  }
+
+  .hero-grid {
+    gap: 34px;
+  }
+
+  .hero-visual {
+    justify-self: center;
+    max-width: 520px;
   }
 
   .hero-visual img {
@@ -1366,10 +1497,24 @@ html[dir="rtl"] .site-footer .footer-grid span {
 
   .navbar {
     min-height: 68px;
+    gap: 12px;
   }
 
   .brand {
+    flex: 1 1 auto;
     font-size: 1.1rem;
+    gap: 9px;
+  }
+
+  .brand-mark {
+    width: 48px;
+    height: 48px;
+    flex-basis: 48px;
+  }
+
+  .brand-mark img {
+    width: 62px;
+    height: 62px;
   }
 
   html[dir="rtl"] .brand {
@@ -1385,11 +1530,11 @@ html[dir="rtl"] .site-footer .footer-grid span {
   }
 
   .hero-home {
-    padding: 38px 0 44px;
+    padding: 24px 0 30px;
   }
 
   .hero-grid {
-    gap: 26px;
+    gap: 18px;
   }
 
   .hero-copy,
@@ -1398,10 +1543,16 @@ html[dir="rtl"] .site-footer .footer-grid span {
   }
 
   .hero-visual {
-    max-width: 310px;
+    max-width: 230px;
+    justify-self: center;
   }
 
-  .hero-copy h1,
+  .hero-copy h1 {
+    max-width: 350px;
+    font-size: clamp(2.05rem, 8vw, 2.35rem);
+    line-height: 1.08;
+  }
+
   .page-hero h1 {
     max-width: 350px;
     font-size: clamp(2.35rem, 10vw, 2.85rem);
@@ -1409,7 +1560,7 @@ html[dir="rtl"] .site-footer .footer-grid span {
   }
 
   html[dir="rtl"] .hero-copy h1 {
-    font-size: clamp(2rem, 8.5vw, 2.45rem);
+    font-size: clamp(1.95rem, 8vw, 2.3rem);
     line-height: 1.2;
   }
 
@@ -1421,7 +1572,7 @@ html[dir="rtl"] .site-footer .footer-grid span {
   .hero-copy p,
   .page-hero p {
     max-width: 350px;
-    font-size: 1.15rem;
+    font-size: 1.08rem;
   }
 
   html[dir="rtl"] .hero-copy p,
@@ -1487,8 +1638,21 @@ html[dir="rtl"] .site-footer .footer-grid span {
     width: 100%;
   }
 
+  .hero-actions {
+    margin-top: 22px;
+  }
+
+  .hero-actions .btn {
+    min-height: 44px;
+    padding: 11px 18px;
+  }
+
   .section {
     padding: 68px 0;
+  }
+
+  .hero-home + .section {
+    padding-top: 50px;
   }
 
   .cta-section {
