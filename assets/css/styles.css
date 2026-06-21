@@ -99,16 +99,11 @@ a {
   white-space: nowrap;
 }
 
-.brand > span:last-child {
-  min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 
 .brand-mark {
-  width: 56px;
-  height: 56px;
-  flex: 0 0 56px;
+  width: auto;
+  height: 52px;
+  flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -117,11 +112,41 @@ a {
 }
 
 .brand-mark img {
-  width: 72px;
-  height: 72px;
-  max-width: none;
+  width: auto;
+  height: 52px;
+  max-width: 150px;
   object-fit: contain;
   display: block;
+}
+
+.site-header .brand-mark {
+  height: 72px;
+}
+
+.site-header .brand-mark img {
+  height: 72px;
+  max-width: 220px;
+}
+
+.site-footer .brand-mark {
+  height: 72px;
+}
+
+.site-footer .brand-mark img {
+  height: 72px;
+  max-width: 220px;
+}
+
+.brand > span:last-child {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .nav-panel {
@@ -1507,14 +1532,33 @@ html[dir="rtl"] .site-footer .footer-grid span {
   }
 
   .brand-mark {
-    width: 48px;
-    height: 48px;
-    flex-basis: 48px;
+    width: auto;
+    height: 44px;
+    flex-basis: auto;
   }
 
   .brand-mark img {
-    width: 62px;
-    height: 62px;
+    width: auto;
+    height: 44px;
+    max-width: 130px;
+  }
+
+  .site-header .brand-mark {
+    height: 56px;
+  }
+
+  .site-header .brand-mark img {
+    height: 56px;
+    max-width: 180px;
+  }
+
+  .site-footer .brand-mark {
+    height: 56px;
+  }
+
+  .site-footer .brand-mark img {
+    height: 56px;
+    max-width: 180px;
   }
 
   html[dir="rtl"] .brand {
